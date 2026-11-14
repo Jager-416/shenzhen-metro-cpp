@@ -1,0 +1,12 @@
+build/
+.runtime/
+submission/
+*.zip
+.env
+.env.*
+!.env.example
+report*.html
+report*.pdf
+.idea/
+.vscode/
+*.log

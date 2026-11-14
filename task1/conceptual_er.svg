@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1080" viewBox="0 0 1560 1080">
+<rect width="1560" height="1080" fill="white"/>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#263b48"/></marker></defs>
+<style>text{font-family:Arial,sans-serif;fill:#203543;font-size:20px} .edge{fill:none;stroke:#263b48;stroke-width:2} .entity{fill:#fff;stroke:#263b48;stroke-width:2}</style>
+<text x="50" y="48" style="font-size:30px;font-weight:bold">Shenzhen Metro - Conceptual E-R Diagram</text>
+<text x="50" y="80" style="font-size:17px">Notation follows CS307 Lecture 7. Underlined attributes are primary keys.</text>
+<rect x="650" y="120" width="250" height="108" class="entity"/>
+<rect x="650" y="120" width="250" height="36" fill="#dceaf0" stroke="#263b48"/>
+<text x="775.0" y="145" text-anchor="middle" font-weight="bold">district</text>
+<text x="665" y="183" text-decoration="underline">district_id</text>
+<text x="665" y="213" >name_en</text>
+<rect x="650" y="420" width="250" height="198" class="entity"/>
+<rect x="650" y="420" width="250" height="36" fill="#dceaf0" stroke="#263b48"/>
+<text x="775.0" y="445" text-anchor="middle" font-weight="bold">station</text>
+<text x="665" y="483" text-decoration="underline">station_id</text>
+<text x="665" y="513" >name_zh</text>
+<text x="665" y="543" >name_en</text>
+<text x="665" y="573" >latitude</text>
+<text x="665" y="603" >longitude</text>
+<rect x="50" y="420" width="250" height="138" class="entity"/>
+<rect x="50" y="420" width="250" height="36" fill="#dceaf0" stroke="#263b48"/>
+<text x="175.0" y="445" text-anchor="middle" font-weight="bold">metro_line</text>
+<text x="65" y="483" text-decoration="underline">line_id</text>
+<text x="65" y="513" >name_zh</text>
+<text x="65" y="543" >name_en</text>
+<rect x="1210" y="420" width="250" height="108" class="entity"/>
+<rect x="1210" y="420" width="250" height="36" fill="#dceaf0" stroke="#263b48"/>
+<text x="1335.0" y="445" text-anchor="middle" font-weight="bold">station_exit</text>
+<text x="1225" y="483" text-decoration="underline">exit_id</text>
+<text x="1225" y="513" >exit_code</text>
+<rect x="1210" y="850" width="250" height="108" class="entity"/>
+<rect x="1210" y="850" width="250" height="36" fill="#dceaf0" stroke="#263b48"/>
+<text x="1335.0" y="875" text-anchor="middle" font-weight="bold">landmark</text>
+<text x="1225" y="913" text-decoration="underline">landmark_id</text>
+<text x="1225" y="943" >name</text>
+<polygon points="685,320 775,272 865,320 775,368" fill="#eaf1f5" stroke="#263b48" stroke-width="2"/>
+<text x="775" y="327" text-anchor="middle">located_in</text>
+<polyline points="775,272 775,228" class="edge" marker-end="url(#arrow)"/>
+<polyline points="771,368 771,420" class="edge"/>
+<polyline points="779,368 779,420" class="edge"/>
+<polygon points="385,500 475,452 565,500 475,548" fill="#eaf1f5" stroke="#263b48" stroke-width="2"/>
+<text x="475" y="507" text-anchor="middle">serves</text>
+<polyline points="385,500 300,500" class="edge"/>
+<polyline points="565,500 650,500" class="edge"/>
+<rect x="345" y="150" width="260" height="235" class="entity"/>
+<text x="365" y="190" >position</text>
+<text x="365" y="228" >status</text>
+<text x="365" y="266" >opening_year</text>
+<text x="365" y="304" >first_train</text>
+<text x="365" y="342" >last_train</text>
+<polyline points="475,385 475,452" class="edge" stroke-dasharray="7 5"/>
+<polygon points="965,500 1055,452 1145,500 1055,548" fill="#eaf1f5" stroke="#263b48" stroke-width="2"/>
+<text x="1055" y="507" text-anchor="middle">belongs_to</text>
+<polyline points="965,500 900,500" class="edge" marker-end="url(#arrow)"/>
+<polyline points="1145,496 1210,496" class="edge"/>
+<polyline points="1145,504 1210,504" class="edge"/>
+<polygon points="1245,740 1335,692 1425,740 1335,788" fill="#eaf1f5" stroke="#263b48" stroke-width="2"/>
+<text x="1335" y="747" text-anchor="middle">nearby</text>
+<polyline points="1335,692 1335,528" class="edge"/>
+<polyline points="1335,788 1335,850" class="edge"/>
+<text x="50" y="780" font-weight="bold">Relationship-to-table mapping</text>
+<text x="50" y="815" style="font-size:17px">serves -&gt; line_stop (line_id, station_id, relationship attributes)</text>
+<text x="50" y="844" style="font-size:17px">nearby -&gt; exit_landmark (exit_id, landmark_id)</text>
+<text x="50" y="873" style="font-size:17px">located_in -&gt; station.district_id</text>
+<text x="50" y="902" style="font-size:17px">belongs_to -&gt; station_exit.station_id</text>
+<text x="50" y="931" style="font-size:17px">Arrow towards an entity = at most one. Plain line = many.</text>
+<text x="50" y="960" style="font-size:17px">Double line = total participation. Dashed line attaches relationship attributes.</text>
+<text x="50" y="989" style="font-size:17px">Station identity also has UNIQUE (name_zh, district_id).</text>
+<text x="50" y="1018" style="font-size:17px">Each line has UNIQUE (line_id, position); each exit has UNIQUE (station_id, exit_code).</text>
+</svg>

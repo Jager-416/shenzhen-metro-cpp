@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#173e35">
+  <title>深铁工作台 · Shenzhen Metro</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#journey" aria-label="深铁工作台首页"><span class="brand-mark">M</span><span>深铁工作台<small>SHENZHEN METRO</small></span></a>
+    <div class="nav-caption">工作空间</div>
+    <nav aria-label="主要导航">
+      <a href="#journey" data-view="journey"><span class="nav-icon">↗</span>出行查询</a>
+      <a href="#stations" data-view="stations"><span class="nav-icon">◎</span>站点管理</a>
+      <a href="#lines" data-view="lines"><span class="nav-icon">≋</span>线路管理</a>
+      <a href="#queries" data-view="queries"><span class="nav-icon">⌘</span>数据查询</a>
+    </nav>
+    <div class="sidebar-bottom"><div class="network-status"><i></i>深圳轨道交通</div><div class="network-counts"><span><b id="station-count">—</b>站点</span><span><b id="line-count">—</b>线路</span></div><div class="sidebar-foot">CS307 · PROJECT 1</div></div>
+  </aside>
+  <main>
+    <header class="topbar"><div><span class="crumb">工作台</span><span class="crumb-slash">/</span><span id="view-name">出行查询</span></div><div class="header-actions"><span class="connection" id="connection" role="status">正在连接</span><button class="icon-button" id="refresh" title="刷新数据" aria-label="刷新数据">↻</button></div></header>
+    <div id="global-error" class="error-banner" role="alert" hidden></div>
+    <section id="view-journey" class="view">
+      <div class="page-heading"><div><div class="eyebrow">EXPLORE THE CITY</div><h1>下一站，去哪里？</h1><p>连接站点，也连接城市里的每一个目的地。</p></div><span class="heading-label">深圳 · SHENZHEN</span></div>
+      <div class="journey-grid">
+        <div class="planner card">
+          <div class="segmented" role="group" aria-label="查询方式"><button type="button" data-mode="station" class="active" aria-pressed="true">站点之间</button><button type="button" data-mode="landmark" aria-pressed="false">地标之间</button></div>
+          <form id="journey-form">
+            <div class="trip-inputs"><label><span class="field-label"><i class="point start"></i><span id="origin-label">出发站点</span></span><input id="origin" list="station-options" autocomplete="off" placeholder="输入中文或英文站名" required></label><button type="button" class="swap" id="swap" aria-label="交换起点和终点">⇅</button><label><span class="field-label"><i class="point end"></i><span id="destination-label">到达站点</span></span><input id="destination" list="station-options" autocomplete="off" placeholder="输入中文或英文站名" required></label></div>
+            <div class="form-grid"><label>路线偏好<select id="preference"><option value="stops">站数最少</option><option value="transfers">换乘最少</option></select></label><label class="checkbox-label"><input type="checkbox" id="include-construction">包含在建线路</label></div>
+            <button class="button primary wide" id="journey-submit" type="submit">查询路线<span>↗</span></button>
+            <div id="journey-error" class="inline-error" role="alert" hidden></div>
+          </form>
+          <div class="quick-trips"><span>试试这段旅程</span><button type="button" data-trip="Luohu|Shenzhen North Station">罗湖 → 深圳北站</button><button type="button" data-trip="Mawan|Tanglang">妈湾 → 塘朗</button></div>
+        </div>
+        <div class="map-card card"><div class="map-heading"><div><span class="tiny-dot"></span>线网示意<span class="subtle" id="map-caption">有坐标站点</span></div><span class="map-watermark">SHENZHEN</span></div><canvas id="network-map" role="img" aria-label="地铁线网坐标示意图"></canvas><div class="map-tools"><button type="button" data-map="in" aria-label="放大线网">＋</button><button type="button" data-map="out" aria-label="缩小线网">−</button><button type="button" data-map="reset" aria-label="重置线网">⌖</button></div><div class="map-note">依据数据集坐标绘制，缺少坐标的区段省略</div></div>
+      </div>
+      <div id="journey-result" class="journey-result" aria-live="polite"><div class="empty-result"><span class="empty-symbol">↗</span><div><h3>把目的地交给我们</h3><p>选择起点与终点，查看路线、换乘和票价。</p></div></div></div>
+    </section>
+    <section id="view-stations" class="view" hidden>
+      <div class="page-heading"><div><div class="eyebrow">STATION DIRECTORY</div><h1>城市的每一个站点</h1><p>查找站点，维护名称、行政区与地理位置。</p></div><button class="button primary" id="add-station">＋ 新增站点</button></div>
+      <div class="directory-grid"><div class="card directory"><div class="toolbar"><label class="search-box"><span>⌕</span><input id="station-search" placeholder="搜索站名或英文名" aria-label="搜索站点"></label><select id="district-filter" aria-label="筛选行政区"><option value="">全部行政区</option></select></div><div class="table-caption"><span id="station-total">加载中</span><span>点击站点查看详情</span></div><div class="table-scroll station-table"><table><thead><tr><th>站点名称</th><th>行政区</th><th>操作</th></tr></thead><tbody id="stations-body"></tbody></table></div></div><div class="card detail-panel" id="station-detail"><div class="panel-empty">◎<h3>选择一个站点</h3><p>查看经过线路、出入口与周边地标。</p></div></div></div>
+    </section>
+    <section id="view-lines" class="view" hidden>
+      <div class="page-heading"><div><div class="eyebrow">LINE MANAGEMENT</div><h1>让线路有序连接</h1><p>维护线路信息，在指定位置添加或移除站点。</p></div><button class="button primary" id="add-line">＋ 新增线路</button></div>
+      <div class="line-layout"><div class="card line-directory"><div class="toolbar"><label class="search-box"><span>⌕</span><input id="line-search" placeholder="搜索线路" aria-label="搜索线路"></label></div><div id="lines-list" class="lines-list"></div></div><div class="card line-content" id="line-detail"><div class="panel-empty">≋<h3>选择一条线路</h3><p>查看站序并管理沿线站点。</p></div></div></div>
+    </section>
+    <section id="view-queries" class="view" hidden>
+      <div class="page-heading"><div><div class="eyebrow">DATA WORKSPACE</div><h1>让数据回答问题</h1><p>运行 Q1–Q7，核对导入数据与查询结果。</p></div><span class="heading-label">POSTGRESQL</span></div>
+      <div class="query-layout"><div class="card query-menu" id="query-menu"></div><div class="query-workspace"><form class="card query-form" id="query-form"><div class="query-title"><span class="query-badge" id="query-badge">Q3</span><h2 id="query-title"></h2></div><p id="query-description"></p><div id="query-fields" class="query-fields"></div><button type="submit" class="button primary" id="query-submit">运行查询 <span>↗</span></button><div id="query-error" class="inline-error" role="alert" hidden></div></form><div class="card query-results"><div class="result-heading"><h3>查询结果</h3><span id="query-meta" class="subtle">等待运行</span></div><div id="query-output" aria-live="polite"><div class="simple-empty">运行查询后，结果将在这里显示。</div></div></div></div></div>
+    </section>
+    <footer>深圳轨道交通数据工作台<span>站点与线路以课程数据集为准</span></footer>
+  </main>
+  <datalist id="station-options"></datalist><datalist id="landmark-options"></datalist><datalist id="district-options"></datalist>
+  <dialog id="editor" aria-labelledby="editor-title"><div class="dialog-heading"><div><span class="eyebrow" id="editor-kicker">EDIT RECORD</span><h2 id="editor-title"></h2></div><button type="button" class="icon-button" data-close aria-label="关闭编辑窗口">×</button></div><form id="editor-form"><div id="editor-fields"></div><div id="editor-error" class="inline-error" role="alert" hidden></div><div class="dialog-actions"><button type="button" class="button secondary" data-close>取消</button><button type="submit" class="button primary" id="editor-submit">保存</button></div></form></dialog>
+  <dialog id="confirmation" aria-labelledby="confirm-title"><h2 id="confirm-title"></h2><p id="confirm-message"></p><div class="dialog-actions"><button class="button secondary" id="confirm-cancel">取消</button><button class="button danger" id="confirm-yes">确认删除</button></div></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>

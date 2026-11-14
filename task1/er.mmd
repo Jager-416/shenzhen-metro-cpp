@@ -1,0 +1,46 @@
+erDiagram
+    district ||--o{ station : contains
+    metro_line ||--o{ line_stop : has
+    station ||--o{ line_stop : serves
+    station ||--o{ station_exit : has
+    station_exit ||--o{ exit_landmark : links
+    landmark ||--o{ exit_landmark : links
+    district {
+        integer district_id PK
+        text name_en UK
+    }
+    station {
+        integer station_id PK
+        integer district_id FK
+        text name_zh "UNIQUE with district_id"
+        text name_en
+        numeric latitude
+        numeric longitude
+    }
+    metro_line {
+        integer line_id PK
+        text name_zh UK
+        text name_en UK
+    }
+    line_stop {
+        integer line_id PK,FK
+        integer station_id PK,FK
+        integer position "UNIQUE with line_id"
+        text status
+        smallint opening_year
+        time first_train
+        time last_train
+    }
+    station_exit {
+        integer exit_id PK
+        integer station_id FK
+        text exit_code "UNIQUE with station_id"
+    }
+    landmark {
+        integer landmark_id PK
+        text name UK
+    }
+    exit_landmark {
+        integer exit_id PK,FK
+        integer landmark_id PK,FK
+    }
